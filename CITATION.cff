@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the software and the paper it accompanies."
+title: "Braess Lab"
+abstract: >-
+  An open-source, client-only web application that serves as the interactive
+  computational companion to the paper "Braess' Paradox in Uniform Affine Grid
+  Networks" by Andy Lu and Steven J. Miller. It re-solves the user equilibrium
+  of uniform affine grids plus one chord in real time using the paper's
+  closed-form spectral machinery, reproduces the paper's published results as
+  validated test fixtures, and runs a Web Worker search for the chord placement
+  that maximizes the Braess Ratio.
+type: software
+authors:
+  - family-names: Lu
+    given-names: Andy
+  - family-names: Miller
+    given-names: "Steven J."
+repository-code: "https://github.com/anlu9183/braess-lab"
+url: "https://github.com/anlu9183/braess-lab"
+license: MIT
+version: 0.1.0
+date-released: "2026-07-30"
+keywords:
+  - "Braess' paradox"
+  - "selfish routing"
+  - "user equilibrium"
+  - "traffic networks"
+  - "spectral graph theory"
+  - "Laplacian pseudoinverse"
+preferred-citation:
+  type: article
+  title: "Braess' Paradox in Uniform Affine Grid Networks"
+  authors:
+    - family-names: Lu
+      given-names: Andy
+    - family-names: Miller
+      given-names: "Steven J."

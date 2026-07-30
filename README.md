@@ -10,6 +10,27 @@ npm test        # regression tests against the paper's §3.4 numbers
 npm run build   # static build in dist/ (deployable to GitHub Pages / Vercel)
 ```
 
+## Scope (please read)
+
+Braess Lab is deliberately, honestly scoped. It does **exactly** what the
+paper's theory supports and nothing more:
+
+- ✅ Exact analysis of **uniform affine grids plus one chord** — the setting the
+  paper covers — via closed-form spectral math.
+- ✅ Exploration of **small, structured, directed affine networks** in the
+  free-form sandbox (solved numerically by Frank–Wolfe).
+
+It is **not**, and does not claim to be:
+
+- ❌ A real-road planning or decision-support tool. Real networks are
+  non-graded, non-uniform, nonlinear, and multi-origin/destination; general
+  Braess detection is NP-hard (Roughgarden 2006).
+- ❌ A backend service — everything runs client-side in your browser.
+- ❌ A general traffic simulator — no time dynamics, signals, or elastic demand.
+
+The free-form sandbox is structured-network *exploration*, never real-road
+analysis.
+
 ## What it does
 
 **Sandbox (Grid)** — a uniform affine grid G(m,n) with latency ℓ(x) = a·x + b on

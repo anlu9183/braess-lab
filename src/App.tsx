@@ -88,6 +88,21 @@ export default function App() {
         {tab === 'gallery' && <GalleryTab loadIntoSandbox={loadIntoSandbox} />}
         {tab === 'research' && <ResearchTab loadIntoSandbox={loadIntoSandbox} />}
       </main>
+      <footer className="app-footer">
+        <p>
+          <b>Scope.</b> Braess Lab analyzes <b>idealized, structured networks</b> — uniform affine
+          grids plus one chord (exact), and small directed affine networks (Frank–Wolfe). It is{' '}
+          <b>not</b> a real-road planning tool: general Braess detection on real networks is
+          NP-hard. Everything runs client-side; there is no backend.
+        </p>
+        <p>
+          Companion to <i>Braess' Paradox in Uniform Affine Grid Networks</i> by Andy Lu and
+          Steven J. Miller · MIT-licensed ·{' '}
+          <a href="https://github.com/anlu9183/braess-lab" target="_blank" rel="noreferrer">
+            source on GitHub
+          </a>
+        </p>
+      </footer>
     </div>
   );
 }
