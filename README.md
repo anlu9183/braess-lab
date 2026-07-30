@@ -3,12 +3,26 @@
 Interactive companion webapp to *“Braess' Paradox in Uniform Affine Grid Networks”*
 (Andy Lu and Steven J. Miller). Everything runs in the browser — no backend.
 
+## Quickstart
+
+**Prerequisites:** [Node.js](https://nodejs.org/) **20 or newer** (the toolchain
+uses Vite 8 / Vitest 4) and npm.
+
 ```bash
-npm install
-npm run dev     # local dev server
-npm test        # regression tests against the paper's §3.4 numbers
-npm run build   # static build in dist/ (deployable to GitHub Pages / Vercel)
+npm install          # install dependencies
+
+npm run dev          # start the dev server, then open http://localhost:5173
+
+npm test             # run the test suite (reproduces the paper's §3.4 numbers)
+
+npm run build        # type-check + production build into dist/
+npm run preview      # serve the production build locally to check it
+npm run lint         # static analysis with oxlint
 ```
+
+Only `npm run dev` is needed to explore the app locally; the others are for
+testing, producing a deployable static bundle (`dist/`, hostable on GitHub
+Pages / Vercel / any static host), and checking that build before shipping.
 
 ## Scope (please read)
 
