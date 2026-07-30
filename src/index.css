@@ -1,0 +1,777 @@
+/* Braess Lab chrome — token values from the reference dataviz palette. */
+
+:root {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --page: #f9f9f7;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #898781;
+  --gridline: #e1e0d9;
+  --baseline: #c3c2b7;
+  --border: rgba(11, 11, 11, 0.1);
+  --series-1: #2a78d6; /* blue */
+  --series-2: #008300; /* green */
+  --series-3: #e87ba4; /* magenta */
+  --series-4: #eda100; /* yellow */
+  --series-6: #eb6834; /* orange */
+  --series-7: #4a3aa7; /* violet */
+  --series-8: #e34948; /* red */
+  --seq-100: #cde2fb;
+  --seq-250: #86b6ef;
+  --seq-400: #3987e5;
+  --seq-550: #1c5cab;
+  --seq-700: #0d366b;
+  --div-mid: #f0efec;
+  --status-good: #0ca30c;
+  --status-warning: #fab219;
+  --status-serious: #ec835a;
+  --status-critical: #d03b3b;
+  --delta-good-text: #006300;
+  --accent: var(--series-1);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --page: #0d0d0d;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #898781;
+  --gridline: #2c2c2a;
+  --baseline: #383835;
+  --border: rgba(255, 255, 255, 0.1);
+  --series-1: #3987e5;
+  --series-2: #008300;
+  --series-3: #d55181;
+  --series-4: #c98500;
+  --series-6: #d95926;
+  --series-7: #9085e9;
+  --series-8: #e66767;
+  --div-mid: #383835;
+  --delta-good-text: #0ca30c;
+  --accent: var(--series-1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme='light'])) {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --page: #0d0d0d;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #898781;
+    --gridline: #2c2c2a;
+    --baseline: #383835;
+    --border: rgba(255, 255, 255, 0.1);
+    --series-1: #3987e5;
+    --series-2: #008300;
+    --series-3: #d55181;
+    --series-4: #c98500;
+    --series-6: #d95926;
+    --series-7: #9085e9;
+    --series-8: #e66767;
+    --div-mid: #383835;
+    --delta-good-text: #0ca30c;
+    --accent: var(--series-1);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--page);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--gridline);
+  background: var(--surface-1);
+}
+
+.topbar h1 {
+  font-size: 16px;
+  font-weight: 650;
+  margin: 0;
+}
+
+.topbar .sub {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.tab {
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  font: inherit;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tab:hover {
+  background: color-mix(in oklab, var(--text-primary) 6%, transparent);
+}
+
+.tab.active {
+  background: color-mix(in oklab, var(--accent) 14%, transparent);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.theme-toggle {
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--text-secondary);
+  font: inherit;
+  padding: 5px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.main {
+  flex: 1;
+  overflow: auto;
+  padding: 16px 20px 40px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 310px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.card h2 {
+  font-size: 13px;
+  font-weight: 650;
+  margin: 0 0 10px;
+  color: var(--text-secondary);
+}
+
+.card h2 .hint {
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+/* --- controls --- */
+
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+}
+
+.control-row label {
+  width: 96px;
+  flex: none;
+  color: var(--text-secondary);
+  font-size: 12.5px;
+}
+
+.control-row input[type='range'] {
+  flex: 1;
+  min-width: 0;
+  accent-color: var(--accent);
+}
+
+.control-row .value {
+  width: 64px;
+  flex: none;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+  font-size: 12.5px;
+}
+
+.control-row input[type='number'],
+.control-row select {
+  width: 84px;
+  font: inherit;
+  padding: 3px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--page);
+  color: var(--text-primary);
+}
+
+button.btn {
+  font: inherit;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface-1);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+button.btn:hover {
+  background: color-mix(in oklab, var(--text-primary) 5%, var(--surface-1));
+}
+
+button.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+button.btn.small {
+  padding: 3px 9px;
+  font-size: 12.5px;
+}
+
+button.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.seg button {
+  font: inherit;
+  font-size: 12.5px;
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.seg button.active {
+  background: color-mix(in oklab, var(--accent) 16%, transparent);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* --- stat tiles --- */
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+  gap: 10px;
+}
+
+.tile {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.tile .label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.tile .value {
+  font-size: 21px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.tile .delta {
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.tile .delta.bad {
+  color: var(--status-critical);
+  font-weight: 600;
+}
+
+.tile .delta.good {
+  color: var(--delta-good-text);
+}
+
+.tile .delta.neutral {
+  color: var(--text-muted);
+}
+
+/* --- sandbox shell & toolbar (GeoGebra-style) --- */
+
+.sandbox {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 6px 10px;
+  flex-wrap: wrap;
+}
+
+.tool-btn {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.tool-btn:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--text-primary) 7%, transparent);
+  color: var(--text-primary);
+}
+
+.tool-btn.active {
+  background: color-mix(in oklab, var(--accent) 18%, transparent);
+  color: var(--accent);
+}
+
+.tool-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.tool-sep {
+  width: 1px;
+  height: 24px;
+  background: var(--gridline);
+  margin: 0 6px;
+  flex: none;
+}
+
+/* vertical tool rail on the left of the canvas */
+.canvas-row {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.tool-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 7px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  align-self: flex-start;
+  flex: none;
+}
+
+.tool-btn.large {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+}
+
+.canvas-row .card.canvas-card {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+.canvas-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+  color: var(--text-secondary);
+  padding: 0 60px;
+  font-size: 13px;
+}
+
+.canvas-empty b {
+  font-size: 15px;
+  color: var(--text-primary);
+}
+
+.toolbar-hint {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--text-muted);
+  padding-right: 4px;
+}
+
+/* --- network canvas --- */
+
+.card.canvas-card {
+  padding: 6px;
+}
+
+.canvas-frame {
+  position: relative;
+  border-radius: 9px;
+  overflow: hidden;
+  background: var(--surface-1);
+}
+
+.canvas-frame svg {
+  cursor: grab;
+}
+
+.canvas-frame svg:active {
+  cursor: grabbing;
+}
+
+.zoom-controls {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.zoom-controls button {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface-1);
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.zoom-controls button:hover {
+  color: var(--text-primary);
+  background: color-mix(in oklab, var(--text-primary) 5%, var(--surface-1));
+}
+
+/* --- latency modal --- */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.38);
+  display: grid;
+  place-items: center;
+  z-index: 60;
+}
+
+.modal {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+  padding: 18px 20px;
+  width: 340px;
+  max-width: calc(100vw - 40px);
+}
+
+.modal h3 {
+  margin: 0 0 6px;
+  font-size: 14.5px;
+}
+
+.modal .control-row input[type='number'] {
+  flex: 1;
+  width: auto;
+}
+
+.latency-preview {
+  background: var(--page);
+  border: 1px solid var(--gridline);
+  border-radius: 8px;
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 15px;
+  margin: 10px 0;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+/* --- chart --- */
+
+.chart-box {
+  position: relative;
+}
+
+.chart-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+  padding: 7px 10px;
+  font-size: 12px;
+  min-width: 132px;
+  z-index: 10;
+}
+
+.chart-tooltip .tt-x {
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.chart-tooltip .tt-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 2px 0;
+}
+
+.chart-tooltip .tt-key {
+  width: 12px;
+  height: 0;
+  border-top: 2.5px solid;
+  flex: none;
+}
+
+.chart-tooltip .tt-val {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  margin-left: auto;
+}
+
+.chart-tooltip .tt-name {
+  color: var(--text-secondary);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+}
+
+.legend .key {
+  display: inline-block;
+  width: 14px;
+  border-top: 2.5px solid;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+/* --- gallery --- */
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+}
+
+.preset-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+}
+
+.preset-card:hover {
+  border-color: var(--accent);
+}
+
+.preset-card h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+}
+
+.preset-card p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 12.5px;
+}
+
+.preset-card .ref {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+/* --- research table --- */
+
+table.results {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+table.results th {
+  text-align: right;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--baseline);
+}
+
+table.results th:first-child,
+table.results td:first-child {
+  text-align: left;
+}
+
+table.results td {
+  text-align: right;
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--gridline);
+  font-variant-numeric: tabular-nums;
+}
+
+table.results tr.best td {
+  font-weight: 650;
+}
+
+table.results tr:hover td {
+  background: color-mix(in oklab, var(--accent) 7%, transparent);
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.progress-track {
+  height: 8px;
+  border-radius: 4px;
+  background: color-mix(in oklab, var(--accent) 18%, var(--surface-1));
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 4px;
+  transition: width 0.2s;
+}
+
+.note {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.mono {
+  font-variant-numeric: tabular-nums;
+}
+
+.chip {
+  display: inline-block;
+  font-size: 11.5px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 1px 9px;
+  color: var(--text-secondary);
+  margin-right: 6px;
+}
+
+.chip.bad {
+  border-color: var(--status-critical);
+  color: var(--status-critical);
+  font-weight: 600;
+}
+
+.chip.good {
+  border-color: var(--status-good);
+  color: var(--delta-good-text);
+}
+
+/* Braess scan results: one row per road, click to select it on the canvas. */
+.scan-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.scan-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 4px;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: none;
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+}
+
+.scan-row:hover,
+.scan-row.selected {
+  background: color-mix(in oklab, var(--text-primary) 5%, var(--surface-1));
+}
+
+.scan-row .scan-br {
+  margin-left: auto;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 940px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
