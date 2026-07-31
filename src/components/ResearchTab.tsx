@@ -18,6 +18,7 @@ export default function ResearchTab({ loadIntoSandbox }: Props) {
   const [running, setRunning] = useState(false);
   const [progress, setProgress] = useState<ProgressMsg | null>(null);
   const [result, setResult] = useState<DoneMsg | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const workerRef = useRef<Worker | null>(null);
 
   useEffect(() => {
@@ -26,12 +27,19 @@ export default function ResearchTab({ loadIntoSandbox }: Props) {
 
   const start = () => {
     workerRef.current?.terminate();
-    const worker = new Worker(new URL('../workers/search.worker.ts', import.meta.url), {
-      type: 'module',
-    });
-    workerRef.current = worker;
     setResult(null);
     setProgress(null);
+    setError(null);
+    let worker: Worker;
+    try {
+      worker = new Worker(new URL('../workers/search.worker.ts', import.meta.url), {
+        type: 'module',
+      });
+    } catch {
+      setError('Could not start the search worker. If this page has been open a while, reload it (Cmd/Ctrl+Shift+R) — a stale cached version can reference an outdated worker file.');
+      return;
+    }
+    workerRef.current = worker;
     setRunning(true);
     worker.onmessage = (ev: MessageEvent<WorkerOut>) => {
       if (ev.data.type === 'progress') setProgress(ev.data);
@@ -39,6 +47,20 @@ export default function ResearchTab({ loadIntoSandbox }: Props) {
         setResult(ev.data);
         setRunning(false);
       }
+    };
+    // If the worker script fails to load or throws, surface it instead of
+    // hanging on "starting…". A stale cached page pointing at an old worker
+    // hash is the common cause — a hard reload fixes it.
+    worker.onerror = (e) => {
+      setError(
+        `The search worker failed to start${e.message ? ` (${e.message})` : ''}. Try reloading the page (Cmd/Ctrl+Shift+R).`,
+      );
+      setRunning(false);
+      worker.terminate();
+    };
+    worker.onmessageerror = () => {
+      setError('The search worker sent an unreadable message. Try reloading the page.');
+      setRunning(false);
     };
     worker.postMessage({ type: 'start', maxN, perGridBudget: budget });
   };
@@ -124,6 +146,11 @@ export default function ResearchTab({ loadIntoSandbox }: Props) {
               {result?.cancelled ? ' · stopped early' : ''}
             </p>
           </>
+        )}
+        {error && (
+          <p className="note" role="alert" style={{ marginTop: 6, color: 'var(--status-critical)' }}>
+            {error}
+          </p>
         )}
       </div>
 
