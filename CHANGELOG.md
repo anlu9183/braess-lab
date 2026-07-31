@@ -6,47 +6,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-### Accessibility
-- Darkened light-mode muted text to meet WCAG AA contrast (≥ 4.5:1).
-- Added accessible names (`aria-label`) to the line charts and the per-grid
-  heatmap, to every slider/number input in the grid sandbox and the free-form
-  demand control, and gave the latency dialog proper `role="dialog"` semantics.
-- Added plain-language hover explanations (ⓘ) to the grid sandbox stat tiles
-  (BR, z*, V_uv, z̄/zel, BR_rel, C(f), PoA) for onboarding.
-
-### Added
-- GitHub Actions workflows: CI (lint + tests + build on push and PRs) and
-  automatic deployment to GitHub Pages. Live demo at
-  https://anlu9183.github.io/braess-lab/ .
-- Research search now maximizes the honest Braess ratio over the grid intercept
-  `b` per chord (a 1-D inner search, `maxBRoverB`; `c = d = 0` fixed by Thm. 4.2),
-  so each grid's reported value is its true maximum honest ratio rather than the
-  value at the relaxation-optimal `b*`. The `BR ≤ BR_rel` pruning stays valid
-  (BR_rel bounds the honest ratio over all `b`), verified by tests.
-- Research tab: a severity-vs-(m+n) trend chart plotting the best honest BR − 1
-  against grid size, addressing §5's open question of the maximizing grid
-  dimensions and the supremum.
-
-### Changed
-- Search results/CSV report `bOpt` (the BR-maximizing intercept) in place of the
-  old fixed `bStar` column; the "honest solves / grid" input is now "chords /
-  grid" (each chord runs the inner b-search).
-- Synced all theorem/section references to the finished paper's numbering
-  (built against an earlier draft): BR < 4/3 is now **Thm. 4.1**; the SE/NW
-  directional/Braess-capability restriction is **Thm. 2.12**; the travel-time /
-  voltage criterion is **Thm. 2.11**; the first-region voltage bound is
-  **Thm. 2.10**; zero-latency maximizer stays **Thm. 4.2**; edge-usage stays
-  **Cor. 2.8**. Removed stale references (Cor. 2.15, Thm. 2.14, Lemma 2.13,
-  Thm. 3.1, Observation 2.4, §3.2/§3.3/§3.4).
-- Reframed the 4×10 case as an *illustrative reference configuration*
-  (cross-checked against Frank–Wolfe) rather than a published "§3.4 flagship,"
-  since the finished paper contains no such worked example. Numbers and tests
-  are unchanged; only the framing/labels were corrected.
-- Research tab now points to §5 (Future Directions), which leaves the Braess-
-  ratio supremum, the maximizing chord location, and the maximizing grid
-  dimensions open.
-
-## [0.1.0] - 2026-07-30
+## [0.1.0] - 2026-07-31
 
 Initial public release.
 
@@ -54,19 +14,38 @@ Initial public release.
 - Pure math engine (`src/core/`): grid Laplacian spectral machinery and
   closed-form L⁺ quantities, orientation-constrained active-set QP, exact
   grid+chord equilibrium solver, Frank–Wolfe solver for arbitrary affine
-  networks, and the corrected-maximum Braess-ratio search.
+  networks, and the maximum-Braess-ratio search.
 - Grid sandbox with live re-solving, instruments (ammeter/voltmeter), voltage
   lens, electrical-relaxation view, energy/Ψ/voltage-area curves, and
   demand/price sweeps.
 - Free-form sandbox with a leave-one-out Braess scan, solved by Frank–Wolfe.
-- Gallery of presets reproducing the paper's results.
-- Research tab: Web Worker–driven max-Braess-ratio search with ranked table,
-  per-grid heatmap, and CSV export.
-- Test suite reproducing the paper's §3.4 numbers, cross-checking the spectral
-  solver against Frank–Wolfe, and verifying the structural theorems.
-- Open-source scaffolding: MIT `LICENSE`, `CITATION.cff`, `CONTRIBUTING.md`,
-  and a "Scope" statement in the README and UI.
-- Vite `base` path configured for GitHub Pages deployment.
+- Gallery of presets illustrating the paper's results.
+- Research tab: a Web Worker search that maximizes the honest Braess ratio over
+  the grid intercept `b` per chord (`maxBRoverB`; `c = d = 0` by Thm. 4.2), with
+  a ranked table, per-grid heatmap, a severity-vs-(m+n) trend chart, and CSV
+  export.
+- Test suite: reference solver values (an illustrative 4×10 configuration) to
+  high precision, spectral↔CG and QP↔Frank–Wolfe cross-checks, and the
+  structural theorems (shortcut immunity, linear-latency immunity, BR < 4/3 —
+  Thm. 4.1).
+- Open-source scaffolding: MIT `LICENSE`, `CITATION.cff`, `CONTRIBUTING.md`, and
+  a "Scope" statement in the README and UI.
+- GitHub Actions: CI (lint + tests + build on push and PRs) and automatic
+  GitHub Pages deployment. Live demo at https://anlu9183.github.io/braess-lab/ .
+  Vite `base` configured for Pages.
+
+### Accessibility
+- Light-mode muted text meets WCAG AA contrast (≥ 4.5:1); accessible names on
+  the charts, the heatmap, and all sandbox controls; `role="dialog"` semantics
+  on the latency dialog; plain-language ⓘ tooltips on the grid stat tiles.
+
+### Notes
+- Theorem/section references follow the finished paper's numbering: BR < 4/3 =
+  Thm. 4.1; SE/NW capability = Thm. 2.12; travel-time/voltage criterion =
+  Thm. 2.11; first-region voltage bound = Thm. 2.10; zero-latency maximizer =
+  Thm. 4.2; edge usage = Cor. 2.8. The 4×10 case is an illustrative reference
+  configuration (cross-checked against Frank–Wolfe), not a published worked
+  example.
 
 [Unreleased]: https://github.com/anlu9183/braess-lab/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/anlu9183/braess-lab/releases/tag/v0.1.0
