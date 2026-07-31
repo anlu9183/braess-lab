@@ -1,5 +1,5 @@
 // Uniform affine grid G_{m,n} and the closed-form spectral machinery for its
-// Laplacian pseudoinverse (paper §3.2).
+// Laplacian pseudoinverse (paper §2).
 //
 // Vertices are (i, j) with 0 <= i <= m, 0 <= j <= n, source s = (0,0), sink
 // t = (m,n); node index = i * (n+1) + j. Directed edges (i,j)->(i+1,j) and
@@ -185,7 +185,7 @@ export interface GridChord {
   d: number; // latency intercept of the chord
 }
 
-/** First-region closed-form quantities for a grid + chord (paper §2.3-2.4, §3.3). */
+/** First-region closed-form quantities for a grid + chord (paper §2, Thm. 2.10 / Cor. 2.9). */
 export interface FirstRegionData {
   Rst: number; // effective resistance s-t (resistance-a edges)
   Ruv: number; // effective resistance u-v

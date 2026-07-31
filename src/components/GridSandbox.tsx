@@ -306,7 +306,7 @@ export default function GridSandbox({ state, setState }: Props) {
       <LineChart
         series={[
           { name: 'Δuv(z) directed voltage', color: 'var(--series-1)', points: curves.zs.map((z, i) => ({ x: z, y: curves.Delta[i] })) },
-          { name: 'Vuv − Ruv·z bound (Lem. 2.13)', color: 'var(--series-2)', points: curves.zs.map((z, i) => ({ x: z, y: curves.DeltaBound[i] })) },
+          { name: 'Vuv − Ruv·z bound (Thm. 2.10)', color: 'var(--series-2)', points: curves.zs.map((z, i) => ({ x: z, y: curves.DeltaBound[i] })) },
         ]}
         regions={[{ polygon: areaCurve, fill: 'var(--series-1)', opacity: 0.14 }]}
         vlines={[{ x: sol.zStar, label: 'z*' }]}
@@ -317,7 +317,7 @@ export default function GridSandbox({ state, setState }: Props) {
         <span className="chip mono">z*·Δ* = {fmt(sol.zStar * curves.DeltaStar)}</span>
         <span className="chip mono">2∫Δ = {fmt(2 * curves.integralDelta)}</span>
         <span className={`chip ${sol.BR > 1 + 1e-9 ? 'bad' : 'good'}`}>
-          {sol.BR > 1 + 1e-9 ? 'z*Δ* > 2∫Δ — paradox (Thm 2.14)' : 'no paradox (Thm 2.14)'}
+          {sol.BR > 1 + 1e-9 ? 'z*Δ* > 2∫Δ — paradox (Thm 2.11)' : 'no paradox (Thm 2.11)'}
         </span>
       </div>
     </>
@@ -434,7 +434,7 @@ export default function GridSandbox({ state, setState }: Props) {
               ) : (
                 'No reversed roads here.'
               )}{' '}
-              — reversed roads are why BR_rel overstates the honest ratio (§3.4).
+              — reversed roads are why BR_rel overstates the honest ratio (Thm 2.11).
             </p>
           )}
           <div className="control-row" style={{ marginTop: 8 }}>
@@ -450,7 +450,7 @@ export default function GridSandbox({ state, setState }: Props) {
           {lens && (
             <p className="note">
               Red = V &lt; 0 (a chord u→w in that direction is a paradox candidate); blue = safe. Only
-              SE/NW nodes can go red (Cor. 2.15).
+              SE/NW nodes can go red (Thm. 2.12).
             </p>
           )}
         </div>
@@ -523,7 +523,7 @@ export default function GridSandbox({ state, setState }: Props) {
             </div>
             <div className="card">
               <h2>
-                Voltage-area criterion (Thm 2.14) <span className="hint">— paradox iff z*Δ* exceeds twice the shaded area</span>
+                Voltage-area criterion (Thm 2.11) <span className="hint">— paradox iff z*Δ* exceeds twice the shaded area</span>
               </h2>
               {deltaChart}
             </div>

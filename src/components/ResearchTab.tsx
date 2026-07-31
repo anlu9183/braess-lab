@@ -83,7 +83,7 @@ export default function ResearchTab({ loadIntoSandbox }: Props) {
           Corrected-maximum search{' '}
           <span className="hint">
             — the honest orientation-constrained Braess ratio over all grids m ≤ n ≤ N, the companion
-            computation the paper defers (§3.2, §4)
+            computation the paper defers (§5, Future Directions)
           </span>
         </h2>
         <div className="control-row">
@@ -105,8 +105,8 @@ export default function ResearchTab({ loadIntoSandbox }: Props) {
           </button>
         </div>
         <p className="note">
-          Per chord: c = d = 0 and b = (q·R_uv − V_uv)/k, the relaxation-optimal configuration of
-          §3.2. Pruning: SE/NW & k &gt; 0 (Cor. 2.15), V_uv &lt; 0 (Thm. 2.12), and BR ≤ BR_rel — candidates
+          Per chord: c = d = 0 (Thm. 4.2) and b = (q·R_uv − V_uv)/k, the relaxation-optimal
+          configuration. Pruning: SE/NW & k &gt; 0 (Thm. 2.12), V_uv &lt; 0 (Thm. 2.11), and BR ≤ BR_rel — candidates
           are tried in BR_rel order and the scan stops when BR_rel can no longer beat the grid's
           honest best, so per-grid maxima are exact (up to the solve budget).
         </p>

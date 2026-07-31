@@ -49,7 +49,7 @@ export interface CurveSamples {
   Erelax: number[]; // electrical lower bound
   Psi: number[]; // reduced Beckmann potential
   Delta: number[]; // directed voltage drop u->v (physical)
-  DeltaBound: number[]; // Vuv - Ruv z (Lemma 2.13)
+  DeltaBound: number[]; // Vuv - Ruv z (Thm. 2.10)
   integralDelta: number; // ∫0^{z*} Delta dr (trapezoid)
   DeltaStar: number; // c z* + d - b k (stationarity)
 }

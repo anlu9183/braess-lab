@@ -2,11 +2,11 @@
 // as a pure function so it runs identically in the Web Worker and in tests.
 //
 // For every grid m <= n <= maxN, enumerate chords that can possibly harm
-// (SE/NW, k > 0, Vuv < 0 — Cor. 2.15 / Thm. 2.12), score them by the cheap
+// (SE/NW, k > 0, Vuv < 0 — Thm. 2.12 / Thm. 2.11), score them by the cheap
 // spectral relaxation BR_rel, and evaluate the honest orientation-constrained
 // BR in descending BR_rel order. Since BR <= BR_rel, the scan stops once
 // BR_rel cannot beat the grid's honest best: per-grid maxima are exact up to
-// the solve budget. Chord parameters follow §3.2: c = d = 0,
+// the solve budget. Chord parameters: c = d = 0 (Thm. 4.2),
 // b* = (q Ruv - Vuv)/k.
 
 import { GridSpectral } from './grid';

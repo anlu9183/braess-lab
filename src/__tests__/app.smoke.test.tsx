@@ -21,9 +21,9 @@ vi.stubGlobal(
   },
 );
 
-it('renders the flagship sandbox with the paper numbers', async () => {
+it('renders the 4x10 example sandbox with the reference numbers', async () => {
   render(<App />);
-  // BR meter shows the §3.4 honest ratio (stable to 6 decimals).
+  // BR meter shows the honest ratio (stable to 6 decimals).
   expect(await screen.findByText(/1\.000326\d/)).toBeTruthy();
   // BR_rel meter shows the relaxation bound.
   expect(screen.getByText(/1\.020225\d/)).toBeTruthy();

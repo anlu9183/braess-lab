@@ -6,6 +6,22 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+- Synced all theorem/section references to the finished paper's numbering
+  (built against an earlier draft): BR < 4/3 is now **Thm. 4.1**; the SE/NW
+  directional/Braess-capability restriction is **Thm. 2.12**; the travel-time /
+  voltage criterion is **Thm. 2.11**; the first-region voltage bound is
+  **Thm. 2.10**; zero-latency maximizer stays **Thm. 4.2**; edge-usage stays
+  **Cor. 2.8**. Removed stale references (Cor. 2.15, Thm. 2.14, Lemma 2.13,
+  Thm. 3.1, Observation 2.4, §3.2/§3.3/§3.4).
+- Reframed the 4×10 case as an *illustrative reference configuration*
+  (cross-checked against Frank–Wolfe) rather than a published "§3.4 flagship,"
+  since the finished paper contains no such worked example. Numbers and tests
+  are unchanged; only the framing/labels were corrected.
+- Research tab now points to §5 (Future Directions), which leaves the Braess-
+  ratio supremum, the maximizing chord location, and the maximizing grid
+  dimensions open.
+
 ## [0.1.0] - 2026-07-30
 
 Initial public release.

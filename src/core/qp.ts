@@ -8,7 +8,7 @@
 // KKT for a zeroed edge i->j is phi_i - phi_j <= 0 (no forward voltage drop);
 // violated edges re-enter P, blocking edges leave it one at a time along a
 // feasible interpolation. This is exactly the active-set continuation of
-// paper §3.3, at a fixed chord flow z.
+// the paper's directed energy (Thm. 2.7), at a fixed chord flow z.
 
 import { solveLaplacian, type WeightedEdge } from './laplacian';
 

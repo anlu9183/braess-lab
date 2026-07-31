@@ -63,10 +63,10 @@ export const presets: Preset[] = [
   },
   {
     id: 'flagship',
-    title: 'The 4×10 flagship grid',
+    title: 'The 4×10 example grid',
     blurb:
-      'The worked example of §3.4: uniform latency x + 0.8442, zero-latency chord (0,6)→(4,4). The chord looks great in the electrical relaxation (BR_rel ≈ 1.0202259) but the honest directed equilibrium stops at z* ≈ 0.3798 with BR ≈ 1.0003262 — still a paradox. Switch the view to “Electrical relaxation” to see the roads the unconstrained current would drive backwards.',
-    ref: 'Paper §3.4 — the corrected maximum candidate',
+      'An illustrative 4×10 case: uniform latency x + 0.8442, zero-latency chord (0,6)→(4,4). The chord looks great in the electrical relaxation (BR_rel ≈ 1.0202259) but the honest directed equilibrium stops at z* ≈ 0.3798 with BR ≈ 1.0003262 — still a paradox. Switch the view to “Electrical relaxation” to see the roads the unconstrained current would drive backwards.',
+    ref: 'Reference solver configuration — cross-checked against Frank–Wolfe',
     state: () => defaultSandbox(),
   },
   {
@@ -86,7 +86,7 @@ export const presets: Preset[] = [
     title: 'Only SE and NW chords can harm',
     blurb:
       'Turn on the voltage lens and click any node u: every other node v is colored by the base-grid voltage V_uv. Northeast “shortcuts” are always blue (V_uv ≥ 0, provably harmless); only south-east and north-west chords can go red. Red means a chord u→v points against the voltage — the necessary condition for the paradox.',
-    ref: 'Corollary 2.15 — directional restriction',
+    ref: 'Theorem 2.12 — directional restriction',
     state: () => {
       const s = defaultSandbox();
       s.spec = { m: 6, n: 6, a: 1, b: 1, q: 1 };
@@ -102,7 +102,7 @@ export const presets: Preset[] = [
     title: 'Linear latencies are immune',
     blurb:
       'Set b = 0 everywhere and no added edge can ever hurt: the network is a pure resistor circuit and Thomson’s principle protects it (Lemma 2.2). Here the flagship-style SE chord attracts no flow at all — V_uv < 0 and there is no intercept b to pay it back.',
-    ref: 'Lemma 2.2 / Observation 2.4 — resistor immunity',
+    ref: 'Lemma 2.2 / Theorem 2.3 (Thomson’s Principle) — resistor immunity',
     state: () => {
       const s = defaultSandbox();
       s.spec = { m: 4, n: 6, a: 1, b: 0, q: 1 };
@@ -116,7 +116,7 @@ export const presets: Preset[] = [
     title: 'Shortcuts never backfire',
     blurb:
       'A chord that moves toward the sink (northeast) telescopes down the potential, so V_uv ≥ 0 and adding it can only help — whatever its latency. Toggle the switch: total travel time falls or stays put, never rises.',
-    ref: 'Corollary 2.15 + Lemma 2.1',
+    ref: 'Theorem 2.12 + Lemma 2.1',
     state: () => {
       const s = defaultSandbox();
       s.spec = { m: 3, n: 4, a: 1, b: 0.9, q: 1 };

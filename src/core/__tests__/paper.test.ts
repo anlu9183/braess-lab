@@ -1,6 +1,6 @@
 // Regression tests against the paper's numbers.
 //
-// The flagship configuration (§3.4): 4x10 grid, s=(0,0), t=(4,10), every grid
+// The reference configuration: 4x10 grid, s=(0,0), t=(4,10), every grid
 // edge l(x) = x + 0.8442 (a=1), q=1, zero-latency chord (0,6) -> (4,4), k=2.
 //   Rst ~ 3.2203, Vuv ~ -0.30417, Ruv ~ 1.3842
 //   zbar ~ 0.046 at edge (0,6)->(1,6); zel ~ 1.0
@@ -15,7 +15,7 @@ import type { Edge } from '../graph';
 const flagshipSpec: GridSpec = { m: 4, n: 10, a: 1, b: 0.8442, q: 1 };
 const flagshipChord: GridChord = { u: { i: 0, j: 6 }, v: { i: 4, j: 4 }, c: 0, d: 0 };
 
-describe('spectral quantities on the 4x10 flagship grid (§3.4)', () => {
+describe('spectral quantities on the 4x10 example grid', () => {
   const fr = firstRegionData(flagshipSpec, flagshipChord);
 
   it('reproduces Rst, Ruv, Vuv', () => {
@@ -49,7 +49,7 @@ describe('spectral quantities on the 4x10 flagship grid (§3.4)', () => {
   });
 });
 
-describe('honest orientation-constrained equilibrium on the flagship (§3.4)', () => {
+describe('honest orientation-constrained equilibrium on the 4x10 example', () => {
   const sol = solveGridChord(flagshipSpec, flagshipChord);
 
   it('equilibrium lies beyond the first breakpoint', () => {
@@ -133,7 +133,7 @@ describe('solver cross-checks', () => {
 });
 
 describe('structural theorems', () => {
-  it('NE shortcut chords never harm (Cor. 2.15)', () => {
+  it('NE shortcut chords never harm (Thm. 2.12)', () => {
     const spec: GridSpec = { m: 3, n: 4, a: 1, b: 0.9, q: 1 };
     const shortcuts: GridChord[] = [
       { u: { i: 0, j: 0 }, v: { i: 2, j: 3 }, c: 0, d: 0 },
@@ -155,7 +155,7 @@ describe('structural theorems', () => {
     expect(sol.BR).toBeLessThanOrEqual(1 + 1e-9);
   });
 
-  it('BR stays strictly below 4/3 on harmful flagship-style chords (Thm. 3.1)', () => {
+  it('BR stays strictly below 4/3 on harmful example chords (Thm. 4.1)', () => {
     const sol = solveGridChord(flagshipSpec, flagshipChord);
     expect(sol.BR).toBeLessThan(4 / 3);
   });

@@ -13,7 +13,7 @@ npm install          # install dependencies
 
 npm run dev          # start the dev server, then open http://localhost:5173
 
-npm test             # run the test suite (reproduces the paper's §3.4 numbers)
+npm test             # run the test suite (solver regression + Frank–Wolfe cross-checks)
 
 npm run build        # type-check + production build into dist/
 npm run preview      # serve the production build locally to check it
@@ -57,9 +57,9 @@ for a voltmeter (potential), flip the switch drawn on the chord to toggle it in
 and out of the circuit. The “Electrical relaxation” view shows the unconstrained
 resistor current and highlights roads it would run backwards — the exact reason
 BR_rel overstates the honest Braess ratio. A voltage lens colors nodes by V_uv
-to visualize why only SE/NW chords can harm (Cor. 2.15). Curve panels plot
+to visualize why only SE/NW chords can harm (Thm. 2.12). Curve panels plot
 E→(z) vs E(z) with the orientation penalty shaded, the reduced Beckmann
-potential Ψ(z), and the voltage-area criterion of Thm. 2.14. Demand and
+potential Ψ(z), and the travel-time / voltage criterion of Thm. 2.11. Demand and
 chord-price sweeps demonstrate the edge-usage threshold V_uv + bk = d (Cor. 2.8).
 
 **Sandbox (Free-form)** — build arbitrary directed networks (add/drag nodes,
@@ -67,17 +67,21 @@ draw edges, set per-edge a, b); solved with Frank–Wolfe on the Beckmann
 potential. Select any edge for a Braess check: the equilibrium is re-solved
 without it and BR(e) reported. Ships with the classic 4-node Braess network.
 
-**Gallery** — presets reproducing the paper: the classic example (BR = 4/3),
-the 4×10 flagship of §3.4 (z̄ ≈ 0.046, z* ≈ 0.3798, BR ≈ 1.0003262 vs
-BR_rel ≈ 1.0202259), the edge-usage threshold, the voltage lens, linear-latency
-immunity (Lemma 2.2), and safe shortcuts (Cor. 2.15 + Lemma 2.1).
+**Gallery** — presets illustrating the theory: the classic Braess example
+(BR = 4/3, from the paper), an illustrative 4×10 grid case (z̄ ≈ 0.046,
+z* ≈ 0.3798, BR ≈ 1.0003262 vs BR_rel ≈ 1.0202259 — a reference solver
+configuration), the edge-usage threshold, the voltage lens, linear-latency
+immunity (Lemma 2.2), and safe shortcuts (Thm. 2.12 + Lemma 2.1).
 
-**Research** — the “companion computation” the paper defers: a Web Worker
-searches all grids m ≤ n ≤ N for the chord maximizing the *honest*
-orientation-constrained Braess ratio, pruned by Cor. 2.15, Thm. 2.12 and
-BR ≤ BR_rel (candidates tried in descending BR_rel order, so per-grid maxima
-are exact up to the solve budget). Chord parameters follow §3.2 (c = d = 0,
-b* = (q·R_uv − V_uv)/k). Results stream into a ranked table (click a row to
+**Research** — the “companion computation” the paper defers (§5 Future
+Directions leaves the supremum of the Braess ratio, the maximizing chord
+location, and the maximizing grid dimensions open): a Web Worker searches all
+grids m ≤ n ≤ N for the chord maximizing the *honest* orientation-constrained
+Braess ratio, pruned by the SE/NW capability restriction (Thm. 2.12),
+V_uv < 0 (Thm. 2.11), and BR ≤ BR_rel (candidates tried in descending BR_rel
+order, so per-grid maxima are exact up to the solve budget). Chord parameters
+use the ratio-maximizing zero-latency chord (c = d = 0, Thm. 4.2) with
+b* = (q·R_uv − V_uv)/k. Results stream into a ranked table (click a row to
 open it in the sandbox), a per-grid best-BR heatmap, and CSV export.
 
 ## Numerical core (`src/core/`)
@@ -86,15 +90,16 @@ open it in the sandbox), a per-grid best-BR heatmap, and CSV export.
 |---|---|
 | `grid.ts` | Kronecker spectral eigenbasis of the grid Laplacian; closed-form L⁺ quadratic forms and potential fields; first-region data and breakpoint z̄ |
 | `laplacian.ts` | sparse weighted-Laplacian CG solve (Jacobi-preconditioned, nullspace-projected) |
-| `qp.ts` | orientation-constrained energy min ‖x‖² s.t. Bx = p, x ≥ 0 — primal active-set (Lawson–Hanson style), the paper's §3.3 continuation at fixed z |
+| `qp.ts` | orientation-constrained energy min ‖x‖² s.t. Bx = p, x ≥ 0 — primal active-set (Lawson–Hanson style), the paper's directed-energy continuation at fixed z (Thm. 2.7) |
 | `equilibrium.ts` | exact grid+chord equilibrium (golden-section on the strictly convex reduced Beckmann Ψ(z)); Frank–Wolfe for arbitrary affine networks; unconstrained electrical flow |
-| `braess.ts` | chord classification, BR_rel (§3.2), full chord analysis incl. System Optimum / Price of Anarchy |
+| `braess.ts` | chord classification, BR_rel (the relaxation upper bound, Thm. 2.11), full chord analysis incl. System Optimum / Price of Anarchy |
 | `search.ts` | the corrected-maximum search over grids |
 
-The test suite (`npm test`) asserts the paper's §3.4 values to their published
-precision, cross-checks the spectral formulas against the CG solver and the
-exact QP solver against Frank–Wolfe, and verifies the structural theorems
-(shortcut immunity, linear-latency immunity, BR < 4/3).
+The test suite (`npm test`) asserts the reference solver values (an illustrative
+4×10 configuration) to high precision, cross-checks the spectral formulas
+against the CG solver and the exact QP solver against Frank–Wolfe, and verifies
+the structural theorems (shortcut immunity, linear-latency immunity, BR < 4/3 —
+Thm. 4.1).
 
 ## Notes and caveats
 

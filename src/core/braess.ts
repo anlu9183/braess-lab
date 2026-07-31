@@ -1,5 +1,5 @@
-// Braess analytics: chord classification (Cor. 2.15), the electrical
-// relaxation ratio BR_rel (§3.2), the honest orientation-constrained
+// Braess analytics: chord classification (Thm. 2.12), the electrical
+// relaxation ratio BR_rel (the relaxation upper bound, Thm. 2.11), the honest orientation-constrained
 // Braess ratio via the exact solver, and a leave-one-out edge scan for
 // free-form networks.
 
@@ -8,7 +8,7 @@ import { frankWolfe, solveGridChord, solveGridChordSO, type GridChordEquilibrium
 import type { Edge } from './graph';
 
 export type ChordClass =
-  | 'shortcut' // i' >= i and j' >= j: provably harmless (Cor. 2.15)
+  | 'shortcut' // i' >= i and j' >= j: provably harmless (Thm. 2.12)
   | 'SE' // one coordinate up, the other down: the harmful candidates
   | 'NW'
   | 'reverse'; // i' <= i and j' <= j (k <= 0 or backwards): no effect / harmless
@@ -30,7 +30,7 @@ export function chordCanHarm(u: GridCoord, v: GridCoord): boolean {
 }
 
 /**
- * The electrical-relaxation ratio of §3.2: worst case over first-region
+ * The electrical-relaxation ratio (Thm. 2.11): worst case over first-region
  * parameters (c = d = 0, b k = q Ruv - Vuv), an upper bound on the honest BR.
  *   BR_rel = 1 + (-Vuv k) / (q k Rst + (m+n) q Ruv - (m+n) Vuv).
  */
@@ -49,7 +49,7 @@ export function relaxedBraessRatio(
 export interface ChordAnalysis {
   equilibrium: GridChordEquilibrium;
   cls: ChordClass;
-  BRrel: number; // relaxation ratio at the §3.2 worst-case parameters
+  BRrel: number; // relaxation ratio at the worst-case parameters (Thm. 2.11)
   bStar: number; // the b that attains BR_rel: (q Ruv - Vuv) / k
   CSO: number;
   PoA: number; // price of anarchy of the augmented network

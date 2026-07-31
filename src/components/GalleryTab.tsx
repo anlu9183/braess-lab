@@ -16,8 +16,9 @@ export default function GalleryTab({ loadIntoSandbox }: Props) {
           Demo gallery <span className="hint">— the paper, interactive. Click a card to load it into the sandbox.</span>
         </h2>
         <p className="note">
-          Each preset reproduces a result from “Braess' Paradox in Uniform Affine Grid Networks”
-          (Lu &amp; Miller). The flagship 4×10 numbers double as the app's regression tests: R_st ≈ 3.2203,
+          Each preset illustrates a result or configuration from “Braess' Paradox in Uniform Affine
+          Grid Networks” (Lu &amp; Miller). The 4×10 example's numbers double as the app's
+          solver-regression tests (cross-checked against Frank–Wolfe): R_st ≈ 3.2203,
           V_uv ≈ −0.30417, R_uv ≈ 1.3842, z̄ ≈ 0.046, z* ≈ 0.3798, BR ≈ 1.0003262 vs BR_rel ≈ 1.0202259.
         </p>
       </div>
