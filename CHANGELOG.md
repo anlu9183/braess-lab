@@ -6,7 +6,20 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- Research search now maximizes the honest Braess ratio over the grid intercept
+  `b` per chord (a 1-D inner search, `maxBRoverB`; `c = d = 0` fixed by Thm. 4.2),
+  so each grid's reported value is its true maximum honest ratio rather than the
+  value at the relaxation-optimal `b*`. The `BR ≤ BR_rel` pruning stays valid
+  (BR_rel bounds the honest ratio over all `b`), verified by tests.
+- Research tab: a severity-vs-(m+n) trend chart plotting the best honest BR − 1
+  against grid size, addressing §5's open question of the maximizing grid
+  dimensions and the supremum.
+
 ### Changed
+- Search results/CSV report `bOpt` (the BR-maximizing intercept) in place of the
+  old fixed `bStar` column; the "honest solves / grid" input is now "chords /
+  grid" (each chord runs the inner b-search).
 - Synced all theorem/section references to the finished paper's numbering
   (built against an earlier draft): BR < 4/3 is now **Thm. 4.1**; the SE/NW
   directional/Braess-capability restriction is **Thm. 2.12**; the travel-time /

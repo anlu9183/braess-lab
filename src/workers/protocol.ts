@@ -12,7 +12,7 @@ export interface SearchRow {
   BR: number;
   zStar: number;
   zbar: number;
-  bStar: number;
+  bOpt: number; // BR-maximizing grid intercept b (c = d = 0), from the 1-D inner search
 }
 
 export interface GridSummary {

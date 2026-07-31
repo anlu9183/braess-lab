@@ -40,6 +40,8 @@ interface Props {
   markers?: Marker[];
   yFormat?: (v: number) => string;
   xFormat?: (v: number) => string;
+  /** Symbol shown in the crosshair tooltip before the x value (default "z"). */
+  tipXLabel?: string;
 }
 
 function niceTicks(min: number, max: number, count = 4): number[] {
@@ -75,6 +77,7 @@ export default function LineChart({
   markers = [],
   yFormat = defaultFormat,
   xFormat = defaultFormat,
+  tipXLabel = 'z',
 }: Props) {
   const width = 560;
   const pad = { l: 54, r: 14, t: 12, b: 34 };
@@ -248,7 +251,7 @@ export default function LineChart({
             top: 8,
           }}
         >
-          <div className="tt-x mono">z = {xFormat(hover.x)}</div>
+          <div className="tt-x mono">{tipXLabel} = {xFormat(hover.x)}</div>
           {hoverRows.map((r) => (
             <div className="tt-row" key={r.name}>
               <span className="tt-key" style={{ borderTopColor: r.color }} />

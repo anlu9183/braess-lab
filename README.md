@@ -106,6 +106,9 @@ Thm. 4.1).
 - The exact solver covers a uniform grid plus **one** chord (the paper's
   setting). Free-form mode has no such restriction but uses Frank–Wolfe
   (sublinear convergence; the solver-gap tile reports the relative gap).
-- The research search evaluates the honest BR at the relaxation-optimal
-  intercept b*. Maximizing over b per chord (a 1-D outer search) is the natural
-  next refinement, as is extending past N = 16.
+- The research search maximizes the honest BR over the grid intercept b for
+  each chord (a 1-D inner search; c = d = 0 fixed by Thm. 4.2), so each grid's
+  reported value is its true maximum honest Braess ratio. The severity-vs-(m+n)
+  trend chart plots these maxima to probe the open questions of §5 (the
+  supremum and the maximizing grid dimensions). Extending past N = 16 is the
+  natural next step.

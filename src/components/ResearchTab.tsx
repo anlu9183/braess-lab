@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { DoneMsg, GridSummary, ProgressMsg, SearchRow, WorkerOut } from '../workers/protocol';
 import { defaultSandbox } from '../state/presets';
 import { fmt, fmtBR, type SandboxState } from '../state/types';
+import LineChart from './LineChart';
 
 interface Props {
   loadIntoSandbox: (state: SandboxState) => void;
@@ -51,9 +52,9 @@ export default function ResearchTab({ loadIntoSandbox }: Props) {
   const bestBR = result?.bestBR ?? progress?.bestBR ?? 1;
 
   const csv = useMemo(() => {
-    const header = 'm,n,ui,uj,vi,vj,k,Vuv,Ruv,bStar,BRrel,BR,zStar,zbar';
+    const header = 'm,n,ui,uj,vi,vj,k,Vuv,Ruv,bOpt,BRrel,BR,zStar,zbar';
     const lines = rows.map((r) =>
-      [r.m, r.n, r.u.i, r.u.j, r.v.i, r.v.j, r.k, r.Vuv, r.Ruv, r.bStar, r.BRrel, r.BR, r.zStar, r.zbar].join(','),
+      [r.m, r.n, r.u.i, r.u.j, r.v.i, r.v.j, r.k, r.Vuv, r.Ruv, r.bOpt, r.BRrel, r.BR, r.zStar, r.zbar].join(','),
     );
     return [header, ...lines].join('\n');
   }, [rows]);
@@ -70,7 +71,7 @@ export default function ResearchTab({ loadIntoSandbox }: Props) {
 
   const loadRow = (r: SearchRow) => {
     const s = defaultSandbox();
-    s.spec = { m: r.m, n: r.n, a: 1, b: r.bStar, q: 1 };
+    s.spec = { m: r.m, n: r.n, a: 1, b: r.bOpt, q: 1 };
     s.chord = { u: r.u, v: r.v, c: 0, d: 0 };
     s.chordOn = true;
     loadIntoSandbox(s);
@@ -89,7 +90,7 @@ export default function ResearchTab({ loadIntoSandbox }: Props) {
         <div className="control-row">
           <label>max side N</label>
           <input type="number" min={2} max={16} value={maxN} disabled={running} onChange={(e) => setMaxN(Math.max(2, Math.min(16, parseInt(e.target.value) || 2)))} />
-          <label style={{ width: 'auto' }}>honest solves / grid</label>
+          <label style={{ width: 'auto' }}>chords / grid</label>
           <input type="number" min={1} max={500} value={budget} disabled={running} onChange={(e) => setBudget(Math.max(1, parseInt(e.target.value) || 1))} />
           {!running ? (
             <button className="btn primary" onClick={start}>
@@ -105,10 +106,11 @@ export default function ResearchTab({ loadIntoSandbox }: Props) {
           </button>
         </div>
         <p className="note">
-          Per chord: c = d = 0 (Thm. 4.2) and b = (q·R_uv − V_uv)/k, the relaxation-optimal
-          configuration. Pruning: SE/NW & k &gt; 0 (Thm. 2.12), V_uv &lt; 0 (Thm. 2.11), and BR ≤ BR_rel — candidates
-          are tried in BR_rel order and the scan stops when BR_rel can no longer beat the grid's
-          honest best, so per-grid maxima are exact (up to the solve budget).
+          Per chord: c = d = 0 (Thm. 4.2); the honest BR is then maximized over the grid intercept b
+          by a 1-D inner search, so each row is the chord's true maximum honest ratio. Pruning:
+          SE/NW & k &gt; 0 (Thm. 2.12), V_uv &lt; 0 (Thm. 2.11), and BR ≤ BR_rel — candidates are tried
+          in BR_rel order and the scan stops when BR_rel can no longer beat the grid's honest best,
+          so per-grid maxima are exact (up to the per-grid chord budget).
         </p>
         {(running || progress) && (
           <>
@@ -134,6 +136,16 @@ export default function ResearchTab({ loadIntoSandbox }: Props) {
         </div>
       )}
 
+      {grids.length > 0 && (
+        <div className="card">
+          <h2>
+            Severity trend in grid size{' '}
+            <span className="hint">— best honest BR − 1 vs m + n (§5: the maximizing grid dimensions)</span>
+          </h2>
+          <TrendChart grids={grids} />
+        </div>
+      )}
+
       {rows.length > 0 && (
         <div className="card">
           <h2>
@@ -147,7 +159,7 @@ export default function ResearchTab({ loadIntoSandbox }: Props) {
                   <th>chord u → v</th>
                   <th>k</th>
                   <th>V_uv</th>
-                  <th>b*</th>
+                  <th>b (opt)</th>
                   <th>BR_rel</th>
                   <th>BR (honest)</th>
                   <th>z*</th>
@@ -165,7 +177,7 @@ export default function ResearchTab({ loadIntoSandbox }: Props) {
                     </td>
                     <td>{r.k}</td>
                     <td>{fmt(r.Vuv)}</td>
-                    <td>{fmt(r.bStar)}</td>
+                    <td>{fmt(r.bOpt)}</td>
                     <td>{fmtBR(r.BRrel)}</td>
                     <td>{fmtBR(r.BR)}</td>
                     <td>{fmt(r.zStar)}</td>
@@ -214,7 +226,7 @@ function GridHeatmap({ grids, maxN }: { grids: GridSummary[]; maxN: number }) {
                       : `color-mix(in oklab, var(--seq-100) ${100 - pct}%, var(--seq-700))`
                   }
                 >
-                  <title>{`${m}×${n}: best BR ${g.bestBR.toFixed(7)} (${g.candidates} candidates, ${g.solves} solves)`}</title>
+                  <title>{`${m}×${n}: best BR ${g.bestBR.toFixed(7)} (${g.candidates} candidates, ${g.solves} optimized)`}</title>
                 </rect>
               </g>
             );
@@ -236,5 +248,46 @@ function GridHeatmap({ grids, maxN }: { grids: GridSummary[]; maxN: number }) {
       </svg>
       <p className="note">Darker = larger best honest BR; gray = no paradox found. Hover a cell for the exact value.</p>
     </div>
+  );
+}
+
+/**
+ * Best honest BR − 1 against grid size m + n. For each size, the maximum over
+ * all grids sharing that m + n — the trend the paper's §5 leaves open (whether
+ * the severity grows, plateaus, or decays as grids enlarge, and hence where the
+ * supremum lies).
+ */
+function TrendChart({ grids }: { grids: GridSummary[] }) {
+  const bySize = new Map<number, number>();
+  for (const g of grids) {
+    const s = g.m + g.n;
+    bySize.set(s, Math.max(bySize.get(s) ?? 1, g.bestBR));
+  }
+  const points = [...bySize.entries()]
+    .filter(([, br]) => br > 1 + 1e-12)
+    .sort((a, b) => a[0] - b[0])
+    .map(([s, br]) => ({ x: s, y: br - 1 }));
+
+  if (points.length < 2) {
+    return <p className="note">Run a wider search (N ≥ 3) to reveal the trend in m + n.</p>;
+  }
+
+  return (
+    <>
+      <LineChart
+        series={[{ name: 'max BR − 1', color: 'var(--series-1)', points }]}
+        markers={points.map((p) => ({ x: p.x, y: p.y, color: 'var(--series-1)' }))}
+        xLabel="grid size m + n"
+        yLabel="max BR − 1"
+        tipXLabel="m+n"
+        xFormat={(v) => v.toFixed(0)}
+        yFormat={(v) => v.toExponential(2)}
+      />
+      <p className="note">
+        Peak so far: BR − 1 ≈ {Math.max(...points.map((p) => p.y)).toExponential(3)} at m + n ={' '}
+        {points.reduce((best, p) => (p.y > best.y ? p : best)).x}. Whether this keeps rising or
+        settles as grids grow is the open question of §5.
+      </p>
+    </>
   );
 }
