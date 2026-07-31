@@ -7,6 +7,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 
 ### Added
+- GitHub Actions workflows: CI (lint + tests + build on push and PRs) and
+  automatic deployment to GitHub Pages. Live demo at
+  https://anlu9183.github.io/braess-lab/ .
 - Research search now maximizes the honest Braess ratio over the grid intercept
   `b` per chord (a 1-D inner search, `maxBRoverB`; `c = d = 0` fixed by Thm. 4.2),
   so each grid's reported value is its true maximum honest ratio rather than the

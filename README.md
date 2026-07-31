@@ -3,6 +3,8 @@
 Interactive companion webapp to *“Braess' Paradox in Uniform Affine Grid Networks”*
 (Andy Lu and Steven J. Miller). Everything runs in the browser — no backend.
 
+**Live demo:** https://anlu9183.github.io/braess-lab/
+
 ## Quickstart
 
 **Prerequisites:** [Node.js](https://nodejs.org/) **20 or newer** (the toolchain
