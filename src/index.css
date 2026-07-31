@@ -6,7 +6,7 @@
   --page: #f9f9f7;
   --text-primary: #0b0b0b;
   --text-secondary: #52514e;
-  --text-muted: #898781;
+  --text-muted: #6e6c67; /* darkened for WCAG AA (>=4.5:1) on light surfaces */
   --gridline: #e1e0d9;
   --baseline: #c3c2b7;
   --border: rgba(11, 11, 11, 0.1);
@@ -774,6 +774,12 @@ table.results tr:hover td {
   .layout {
     grid-template-columns: 1fr;
   }
+}
+
+.tile-info {
+  color: var(--text-muted);
+  font-size: 0.85em;
+  cursor: help;
 }
 
 .app-footer {

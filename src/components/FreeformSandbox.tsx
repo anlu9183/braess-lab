@@ -344,7 +344,7 @@ export default function FreeformSandbox({ state, setState }: Props) {
             <h2>Demand</h2>
             <div className="control-row">
               <label>demand q</label>
-              <input type="range" min={0.1} max={4} step={0.05} value={q} onChange={(e) => setState({ ...state, qFree: parseFloat(e.target.value) })} />
+              <input type="range" aria-label="demand q" min={0.1} max={4} step={0.05} value={q} onChange={(e) => setState({ ...state, qFree: parseFloat(e.target.value) })} />
               <span className="value">{fmt(q)}</span>
             </div>
           </div>

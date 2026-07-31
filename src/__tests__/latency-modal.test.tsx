@@ -4,7 +4,7 @@
 // it, cancelling must not create the edge, confirming must create the edge
 // with the entered coefficients. Same flow for grid chords.
 
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, expect, it, vi } from 'vitest';
 import App from '../App';
 
@@ -77,8 +77,9 @@ it('placing a grid chord via the toolbar ends in the c,d dialog', async () => {
   const last = container.querySelectorAll('[data-node]').length - 1;
   fireEvent.pointerDown(nodeEl(container, last));
 
-  expect(await screen.findByText(/^Chord \(0,0\)/)).toBeTruthy();
-  expect(screen.getByLabelText('slope c')).toBeTruthy();
+  const dialog = await screen.findByRole('dialog');
+  expect(within(dialog).getByText(/^Chord \(0,0\)/)).toBeTruthy();
+  expect(within(dialog).getByLabelText('slope c')).toBeTruthy();
   fireEvent.click(screen.getByText('Wire in chord'));
   // Chord committed: the switch button reports the chord live.
   expect(await screen.findByText(/switch closed — chord live/)).toBeTruthy();

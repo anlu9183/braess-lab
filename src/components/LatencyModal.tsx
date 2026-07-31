@@ -50,7 +50,7 @@ export default function LatencyModal({
 
   return (
     <div className="modal-backdrop" onPointerDown={(e) => e.target === e.currentTarget && onCancel()}>
-      <form className="modal" onSubmit={submit}>
+      <form className="modal" onSubmit={submit} role="dialog" aria-modal="true" aria-label={title}>
         <h3>{title}</h3>
         {subtitle && <p className="note">{subtitle}</p>}
         <div className="latency-preview mono">

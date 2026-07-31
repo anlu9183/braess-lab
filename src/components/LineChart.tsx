@@ -165,6 +165,9 @@ export default function LineChart({
         onPointerMove={onMove}
         onPointerLeave={() => setHover(null)}
         role="img"
+        aria-label={`Line chart of ${series.map((s) => s.name).join(', ')}${
+          xLabel ? ` versus ${xLabel}` : ''
+        }`}
       >
         {/* gridlines */}
         {yTicks.map((t) => (

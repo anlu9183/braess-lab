@@ -106,6 +106,7 @@ export default function GridSandbox({ state, setState }: Props) {
   const tiles: Tile[] = [
     {
       label: 'Total travel time C(f)',
+      hint: 'C(f) = Σ x·ℓ(x) over all roads — the total system travel time at the user equilibrium.',
       value: fmt(chordOn ? sol.CNew : sol.COld, 6),
       delta: chordOn
         ? {
@@ -116,6 +117,7 @@ export default function GridSandbox({ state, setState }: Props) {
     },
     {
       label: 'Braess ratio BR',
+      hint: 'BR = C(with chord) ÷ C(without). BR > 1 means adding the road made everyone slower — the paradox. Proven strictly below 4/3 (Thm 4.1).',
       value: chordOn ? fmtBR(sol.BR) : '—',
       delta: !chordOn
         ? undefined
@@ -127,11 +129,13 @@ export default function GridSandbox({ state, setState }: Props) {
     },
     {
       label: 'Price of anarchy',
+      hint: 'Price of anarchy = equilibrium cost ÷ system-optimum cost — how much selfish routing costs versus coordinated routing.',
       value: fmt(bundle.analysis.PoA, 6),
       delta: { text: 'UE cost / SO cost', tone: 'neutral' },
     },
     {
       label: 'Chord flow z*',
+      hint: 'z* — how much traffic uses the added chord at the user equilibrium.',
       value: chordOn ? fmt(sol.zStar) : '—',
       delta: chordOn
         ? {
@@ -147,6 +151,7 @@ export default function GridSandbox({ state, setState }: Props) {
     },
     {
       label: 'Voltage V_uv',
+      hint: 'V_uv — the base-grid potential drop from u to v. V_uv < 0 is necessary for the paradox (Thm 2.11 / 2.12).',
       value: fmt(fr.Vuv),
       delta:
         fr.Vuv < 0
@@ -155,11 +160,13 @@ export default function GridSandbox({ state, setState }: Props) {
     },
     {
       label: 'Breakpoint z̄ / zel',
+      hint: 'z̄ — chord flow at which the first grid road saturates; zel — the unconstrained (electrical) optimizer. Beyond z̄ the exact QP takes over.',
       value: `${fmt(Math.min(fr.zbar, spec.q))} / ${fmt(fr.zel)}`,
       delta: { text: 'first saturation / relaxation opt', tone: 'neutral' },
     },
     {
       label: 'BR_rel (electrical bound)',
+      hint: 'BR_rel — the electrical-relaxation upper bound on the Braess ratio (Thm 2.11); the honest BR is always ≤ this.',
       value: fr.Vuv < 0 ? fmtBR(bundle.analysis.BRrel) : '—',
       delta: { text: 'BR ≤ BR_rel < 4/3', tone: 'neutral' },
     },
@@ -390,13 +397,13 @@ export default function GridSandbox({ state, setState }: Props) {
           </h2>
           <div className="control-row">
             <label>u = (i, j)</label>
-            <input type="number" min={0} max={spec.m} value={chord.u.i} onChange={(e) => setChord({ u: { ...chord.u, i: clampInt(e.target.value, 0, spec.m) } })} />
-            <input type="number" min={0} max={spec.n} value={chord.u.j} onChange={(e) => setChord({ u: { ...chord.u, j: clampInt(e.target.value, 0, spec.n) } })} />
+            <input type="number" aria-label="chord tail u — row i" min={0} max={spec.m} value={chord.u.i} onChange={(e) => setChord({ u: { ...chord.u, i: clampInt(e.target.value, 0, spec.m) } })} />
+            <input type="number" aria-label="chord tail u — column j" min={0} max={spec.n} value={chord.u.j} onChange={(e) => setChord({ u: { ...chord.u, j: clampInt(e.target.value, 0, spec.n) } })} />
           </div>
           <div className="control-row">
             <label>v = (i, j)</label>
-            <input type="number" min={0} max={spec.m} value={chord.v.i} onChange={(e) => setChord({ v: { ...chord.v, i: clampInt(e.target.value, 0, spec.m) } })} />
-            <input type="number" min={0} max={spec.n} value={chord.v.j} onChange={(e) => setChord({ v: { ...chord.v, j: clampInt(e.target.value, 0, spec.n) } })} />
+            <input type="number" aria-label="chord head v — row i" min={0} max={spec.m} value={chord.v.i} onChange={(e) => setChord({ v: { ...chord.v, i: clampInt(e.target.value, 0, spec.m) } })} />
+            <input type="number" aria-label="chord head v — column j" min={0} max={spec.n} value={chord.v.j} onChange={(e) => setChord({ v: { ...chord.v, j: clampInt(e.target.value, 0, spec.n) } })} />
           </div>
           <NumberSlider label="slope c" value={chord.c} min={0} max={3} step={0.01} onChange={(v) => setChord({ c: v })} />
           <NumberSlider label="intercept d" value={chord.d} min={0} max={3} step={0.0001} onChange={(v) => setChord({ d: v })} />
@@ -608,6 +615,7 @@ function Slider(props: { label: string; value: number; min: number; max: number;
       <label>{props.label}</label>
       <input
         type="range"
+        aria-label={props.label}
         min={props.min}
         max={props.max}
         step={props.step}
@@ -625,6 +633,7 @@ function NumberSlider(props: { label: string; value: number; min: number; max: n
       <label>{props.label}</label>
       <input
         type="range"
+        aria-label={props.label}
         min={props.min}
         max={props.max}
         step={props.step}
@@ -633,6 +642,7 @@ function NumberSlider(props: { label: string; value: number; min: number; max: n
       />
       <input
         type="number"
+        aria-label={props.label}
         min={props.min}
         step={props.step}
         value={props.value}

@@ -203,7 +203,12 @@ function GridHeatmap({ grids, maxN }: { grids: GridSummary[]; maxN: number }) {
   const byKey = new Map(grids.map((g) => [`${g.m},${g.n}`, g]));
   return (
     <div style={{ overflowX: 'auto' }}>
-      <svg viewBox={`0 0 ${W} ${H}`} style={{ maxWidth: 520 }}>
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        style={{ maxWidth: 520 }}
+        role="img"
+        aria-label="Heatmap of the best honest Braess ratio for each grid, rows m by columns n"
+      >
         {Array.from({ length: maxN }, (_, mi) =>
           Array.from({ length: maxN }, (_, ni) => {
             const m = mi + 1;

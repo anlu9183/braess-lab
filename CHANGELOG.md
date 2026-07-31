@@ -6,6 +6,14 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Accessibility
+- Darkened light-mode muted text to meet WCAG AA contrast (≥ 4.5:1).
+- Added accessible names (`aria-label`) to the line charts and the per-grid
+  heatmap, to every slider/number input in the grid sandbox and the free-form
+  demand control, and gave the latency dialog proper `role="dialog"` semantics.
+- Added plain-language hover explanations (ⓘ) to the grid sandbox stat tiles
+  (BR, z*, V_uv, z̄/zel, BR_rel, C(f), PoA) for onboarding.
+
 ### Added
 - GitHub Actions workflows: CI (lint + tests + build on push and PRs) and
   automatic deployment to GitHub Pages. Live demo at
