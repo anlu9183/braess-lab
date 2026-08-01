@@ -5,6 +5,8 @@ Interactive companion webapp to *“Braess' Paradox in Uniform Affine Grid Netwo
 
 **Live demo:** https://anlu9183.github.io/braess-lab/
 
+![The Braess Lab grid sandbox: a 4×10 uniform affine grid with a zero-latency chord (the purple arc) that raises everyone's travel time. The user equilibrium, Braess ratio, and spectral quantities re-solve live as you drag the sliders.](docs/sandbox.png)
+
 ## Quickstart
 
 **Prerequisites:** [Node.js](https://nodejs.org/) **20 or newer** (the toolchain
@@ -85,6 +87,8 @@ order, so per-grid maxima are exact up to the solve budget). Chord parameters
 use the ratio-maximizing zero-latency chord (c = d = 0, Thm. 4.2) with
 b* = (q·R_uv − V_uv)/k. Results stream into a ranked table (click a row to
 open it in the sandbox), a per-grid best-BR heatmap, and CSV export.
+
+![The Braess Lab research tab: a Web Worker search over all grids m ≤ n ≤ N, showing the progress bar and the per-grid best-Braess-ratio heatmap.](docs/research.png)
 
 ## Numerical core (`src/core/`)
 
