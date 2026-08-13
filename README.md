@@ -10,9 +10,9 @@ Braess' paradox occurs when adding a new road to a network makes the equilibrium
 
 The main grid sandbox uses a uniform affine grid with latency
 
-\[
+$$
 \ell(x)=ax+b
-\]
+$$
 
 on each road. You can add a directed shortcut, change its parameters, and see how the equilibrium flow and Braess ratio change.
 
