@@ -13,8 +13,6 @@ type: software
 authors:
   - family-names: Lu
     given-names: Andy
-  - family-names: Miller
-    given-names: "Steven J."
 repository-code: "https://github.com/anlu9183/braess-lab"
 url: "https://github.com/anlu9183/braess-lab"
 license: MIT
@@ -33,5 +31,3 @@ preferred-citation:
   authors:
     - family-names: Lu
       given-names: Andy
-    - family-names: Miller
-      given-names: "Steven J."
